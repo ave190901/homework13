@@ -1,4 +1,6 @@
+import os
 import random
+from pathlib import Path
 
 import enchant
 
@@ -75,3 +77,22 @@ class CaesarsCipher:
                 dif = ind + self.random_key - len(self.alphabet)
                 self.result_2 += self.alphabet[dif]
         return self.result_2
+
+
+if __name__ == '__main__':
+
+    mes = CaesarsCipher()
+
+    message_1 = mes.decrypt('Wkh.ydfdwlrq.zdv.d.vxffhvv')
+    message_2 = mes.encrypt('The vacation was a success')
+
+    path: Path = Path(input('Введите путь к папке, '
+                            'в которую будет записан результат '))
+    if not path.exists():
+        print(f'Папка {str(path)} не существует')
+        exit()
+
+    path: Path = Path(os.path.join(path, 'result'))
+    with open(f'{path}.txt', 'w', encoding='cp1251', newline='') as file:
+        writer_1 = file.write(f'{mes.key}:{message_1} \n')
+        writer_2 = file.write(f'{mes.random_key}:{message_2} \n')
